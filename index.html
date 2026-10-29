@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aprofundamento Radical 2027</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; }
+  h1, h2, .titulo { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
+  .hero-bg {
+    background: linear-gradient(135deg, #ff512f 0%, #dd2476 50%, #8a2387 100%);
+  }
+  .card-hover { transition: all .3s; }
+  .card-hover:hover { transform: translateY(-6px); box-shadow: 0 15px 35px rgba(0,0,0,.2); }
+  .gradient-text {
+    background: linear-gradient(90deg, #ff512f, #dd2476);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+</style>
+</head>
+<body class="bg-neutral-950 text-white">
+
+<!-- NAVBAR -->
+<nav class="fixed top-0 w-full bg-black/70 backdrop-blur z-50">
+  <div class="max-w-6xl mx-auto flex justify-between items-center px-6 py-4">
+    <a href="#topo"><img id="logoNav" src="" alt="Logo" class="h-10" onerror="this.style.display='none'"></a>
+    <div class="hidden md:flex gap-6 text-sm font-semibold">
+      <a href="#inscricao" class="hover:text-pink-400">Inscrição Radical</a>
+      <a href="#rvj" class="hover:text-pink-400">RVJ</a>
+      <a href="#fotos" class="hover:text-pink-400">Fotos</a>
+      <a href="#videos" class="hover:text-pink-400">Vídeos</a>
+      <a href="#contato" class="hover:text-pink-400">Contato</a>
+    </div>
+    <a href="admin.html" class="text-xs text-neutral-400">⚙️ Admin</a>
+  </div>
+</nav>
+
+<!-- HERO / INSCRIÇÃO -->
+<section id="inscricao" class="hero-bg min-h-screen flex items-center justify-center text-center px-6 pt-20">
+  <div class="max-w-3xl">
+    <h1 id="titulo" class="text-6xl md:text-8xl mb-4 gradient-text">APROFUNDAMENTO RADICAL 2027</h1>
+    <p id="subtitulo" class="text-xl md:text-2xl mb-8 text-white/90">Viva uma experiência que vai mudar a sua vida!</p>
+    <a id="btnInscricao" href="https://app.novoingresso.com.br/eventos/aprofundamento-radical-2027" target="_blank"
+       class="inline-block bg-white text-pink-600 font-extrabold px-10 py-4 rounded-full text-lg shadow-xl hover:scale-105 transition">
+      QUERO ME INSCREVER 🚀
+    </a>
+  </div>
+</section>
+
+<!-- RVJ -->
+<section id="rvj" class="py-24 px-6 bg-neutral-900">
+  <div class="max-w-4xl mx-auto text-center">
+    <h2 class="text-5xl mb-6 gradient-text">A HISTÓRIA DO RVJ</h2>
+    <p id="historia" class="text-lg leading-relaxed text-neutral-300">Carregando história...</p>
+  </div>
+</section>
+
+<!-- FOTOS -->
+<section id="fotos" class="py-24 px-6">
+  <h2 class="text-5xl text-center mb-12 gradient-text">FOTOS</h2>
+  <div id="galeria" class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+</section>
+
+<!-- VÍDEOS -->
+<section id="videos" class="py-24 px-6 bg-neutral-900">
+  <h2 class="text-5xl text-center mb-12 gradient-text">VÍDEOS</h2>
+  <div id="listaVideos" class="max-w-5xl mx-auto grid md:grid-cols-2 gap-6"></div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato" class="py-24 px-6">
+  <div class="max-w-2xl mx-auto text-center">
+    <h2 class="text-5xl mb-8 gradient-text">CONTATO</h2>
+    <div id="contatoInfo" class="text-lg space-y-2"></div>
+  </div>
+</section>
+
+<footer class="text-center py-6 text-neutral-500 text-sm">
+  © 2027 Aprofundamento Radical. Todos os direitos reservados.
+</footer>
+
+<script>
+// Carrega dados salvos pelo admin (ou usa valores padrão)
+const padrao = {
+  logo: "",
+  titulo: "APROFUNDAMENTO RADICAL 2027",
+  subtitulo: "Viva uma experiência que vai mudar a sua vida!",
+  historia: "O RVJ (Renovação de Vida Jovem) nasceu do desejo de aproximar os jovens de Deus através de experiências transformadoras...",
+  fotos: [
+    "https://via.placeholder.com/400x400/ff512f/fff?text=Foto+1",
+    "https://via.placeholder.com/400x400/dd2476/fff?text=Foto+2"
+  ],
+  videos: ["https://www.youtube.com/watch?v=dQw4w9WgXcQ"],
+  contato: "📧 contato@exemplo.com\n📱 (00) 00000-0000\n📍 Endereço do evento"
+};
+
+const dados = JSON.parse(localStorage.getItem("siteDados")) || padrao;
+
+// Aplica os dados
+document.getElementById("logoNav").src = dados.logo;
+document.getElementById("titulo").textContent = dados.titulo;
+document.getElementById("subtitulo").textContent = dados.subtitulo;
+document.getElementById("historia").textContent = dados.historia;
+
+// Galeria
+const galeria = document.getElementById("galeria");
+dados.fotos.forEach(url => {
+  const img = document.createElement("img");
+  img.src = url;
+  img.className = "rounded-xl card-hover w-full h-64 object-cover";
+  img.loading = "lazy";
+  galeria.appendChild(img);
+});
+
+// Vídeos do YouTube
+const listaVideos = document.getElementById("listaVideos");
+dados.videos.forEach(url => {
+  const id = extrairIdYouTube(url);
+  if (!id) return;
+  const div = document.createElement("div");
+  div.className = "aspect-video rounded-xl overflow-hidden card-hover";
+  div.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>`;
+  listaVideos.appendChild(div);
+});
+
+function extrairIdYouTube(url) {
+  const m = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+  return m ? m[1] : null;
+}
+
+// Contato
+document.getElementById("contatoInfo").innerHTML = dados.contato.split("\n").map(l => `<p>${l}</p>`).join("");
+</script>
+
+</body>
+</html>
