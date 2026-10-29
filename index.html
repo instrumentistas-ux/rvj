@@ -10,11 +10,20 @@
   html { scroll-behavior: smooth; }
   body { font-family: 'Inter', sans-serif; }
   h1, h2, .titulo { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
+  
+  /* Fundo dinâmico com overlay escuro para garantir leitura do texto */
   .hero-bg {
-    background: linear-gradient(135deg, #ff512f 0%, #dd2476 50%, #8a2387 100%);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Efeito parallax bonito ao rolar */
   }
+  .hero-overlay {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%);
+  }
+  
   .card-hover { transition: all .3s; }
-  .card-hover:hover { transform: translateY(-6px); box-shadow: 0 15px 35px rgba(0,0,0,.2); }
+  .card-hover:hover { transform: translateY(-6px); box-shadow: 0 15px 35px rgba(0,0,0,.3); }
   .gradient-text {
     background: linear-gradient(90deg, #ff512f, #dd2476);
     -webkit-background-clip: text;
@@ -25,37 +34,43 @@
 <body class="bg-neutral-950 text-white">
 
 <!-- NAVBAR -->
-<nav class="fixed top-0 w-full bg-black/70 backdrop-blur z-50">
+<nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
   <div class="max-w-6xl mx-auto flex justify-between items-center px-6 py-4">
     <a href="#topo"><img id="logoNav" src="" alt="Logo" class="h-10" onerror="this.style.display='none'"></a>
     <div class="hidden md:flex gap-6 text-sm font-semibold">
-      <a href="#inscricao" class="hover:text-pink-400">Inscrição Radical</a>
-      <a href="#rvj" class="hover:text-pink-400">RVJ</a>
-      <a href="#fotos" class="hover:text-pink-400">Fotos</a>
-      <a href="#videos" class="hover:text-pink-400">Vídeos</a>
-      <a href="#contato" class="hover:text-pink-400">Contato</a>
+      <a href="#inscricao" class="hover:text-pink-400 transition">Inscrição Radical</a>
+      <a href="#rvj" class="hover:text-pink-400 transition">RVJ</a>
+      <a href="#fotos" class="hover:text-pink-400 transition">Fotos</a>
+      <a href="#videos" class="hover:text-pink-400 transition">Vídeos</a>
+      <a href="#contato" class="hover:text-pink-400 transition">Contato</a>
     </div>
-    <a href="admin.html" class="text-xs text-neutral-400">⚙️ Admin</a>
+    <a href="admin.html" class="text-xs text-neutral-400 hover:text-white transition">⚙️ Admin</a>
   </div>
 </nav>
 
 <!-- HERO / INSCRIÇÃO -->
-<section id="inscricao" class="hero-bg min-h-screen flex items-center justify-center text-center px-6 pt-20">
-  <div class="max-w-3xl">
-    <h1 id="titulo" class="text-6xl md:text-8xl mb-4 gradient-text">APROFUNDAMENTO RADICAL 2027</h1>
-    <p id="subtitulo" class="text-xl md:text-2xl mb-8 text-white/90">Viva uma experiência que vai mudar a sua vida!</p>
+<section id="inscricao" class="hero-bg min-h-screen flex items-center justify-center text-center px-6 relative">
+  <!-- Overlay escuro para o texto ficar legível em qualquer foto -->
+  <div class="hero-overlay absolute inset-0"></div>
+  
+  <div class="relative z-10 max-w-4xl mx-auto pt-20">
+    <!-- Aqui entra o Texto OU a Imagem do título -->
+    <div id="tituloContainer" class="mb-6 drop-shadow-2xl"></div>
+    
+    <p id="subtitulo" class="text-xl md:text-3xl mb-10 text-white/90 font-light max-w-2xl mx-auto"></p>
+    
     <a id="btnInscricao" href="https://app.novoingresso.com.br/eventos/aprofundamento-radical-2027" target="_blank"
-       class="inline-block bg-white text-pink-600 font-extrabold px-10 py-4 rounded-full text-lg shadow-xl hover:scale-105 transition">
+       class="inline-block bg-gradient-to-r from-pink-600 to-orange-500 text-white font-extrabold px-10 py-5 rounded-full text-xl shadow-2xl hover:scale-105 transition transform border border-white/20">
       QUERO ME INSCREVER 🚀
     </a>
-  </div>
+ 9  </div>
 </section>
 
 <!-- RVJ -->
 <section id="rvj" class="py-24 px-6 bg-neutral-900">
   <div class="max-w-4xl mx-auto text-center">
-    <h2 class="text-5xl mb-6 gradient-text">A HISTÓRIA DO RVJ</h2>
-    <p id="historia" class="text-lg leading-relaxed text-neutral-300">Carregando história...</p>
+    <h2 class="text-5xl mb-8 gradient-text">A HISTÓRIA DO RVJ</h2>
+    <p id="historia" class="text-lg leading-relaxed text-neutral-300"></p>
   </div>
 </section>
 
@@ -75,24 +90,28 @@
 <section id="contato" class="py-24 px-6">
   <div class="max-w-2xl mx-auto text-center">
     <h2 class="text-5xl mb-8 gradient-text">CONTATO</h2>
-    <div id="contatoInfo" class="text-lg space-y-2"></div>
+    <div id="contatoInfo" class="text-lg space-y-3 text-neutral-300"></div>
   </div>
 </section>
 
-<footer class="text-center py-6 text-neutral-500 text-sm">
+<footer class="text-center py-8 text-neutral-500 text-sm border-t border-neutral-800">
   © 2027 Aprofundamento Radical. Todos os direitos reservados.
 </footer>
 
 <script>
-// Carrega dados salvos pelo admin (ou usa valores padrão)
+// Dados padrão (caso não tenha nada salvo no admin ainda)
 const padrao = {
+  heroImage: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1920&auto=format&fit=crop", // Foto de exemplo (multidão/show)
   logo: "",
-  titulo: "APROFUNDAMENTO RADICAL 2027",
-  subtitulo: "Viva uma experiência que vai mudar a sua vida!",
-  historia: "O RVJ (Renovação de Vida Jovem) nasceu do desejo de aproximar os jovens de Deus através de experiências transformadoras...",
+  tituloTipo: "texto", // "texto" ou "imagem"
+  tituloConteudo: "APROFUNDAMENTO RADICAL 2027",
+  subtitulo: "Viva uma experiência que vai mudar a sua vida para sempre!",
+  historia: "O RVJ (Renovação de Vida Jovem) nasceu do desejo de aproximar os jovens de Deus através de experiências transformadoras, música, palavra e comunhão. É um tempo separado para mergulhar fundo na fé e fazer novos amigos.",
   fotos: [
-    "https://via.placeholder.com/400x400/ff512f/fff?text=Foto+1",
-    "https://via.placeholder.com/400x400/dd2476/fff?text=Foto+2"
+    "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=400&fit=crop",
+    "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=400&fit=crop",
+    "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=400&h=400&fit=crop",
+    "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=400&h=400&fit=crop"
   ],
   videos: ["https://www.youtube.com/watch?v=dQw4w9WgXcQ"],
   contato: "📧 contato@exemplo.com\n📱 (00) 00000-0000\n📍 Endereço do evento"
@@ -100,9 +119,28 @@ const padrao = {
 
 const dados = JSON.parse(localStorage.getItem("siteDados")) || padrao;
 
-// Aplica os dados
-document.getElementById("logoNav").src = dados.logo;
-document.getElementById("titulo").textContent = dados.titulo;
+// 1. Aplica imagem de fundo no Hero
+const heroSection = document.getElementById("inscricao");
+if (dados.heroImage) {
+  heroSection.style.backgroundImage = `url('${dados.heroImage}')`;
+}
+
+// 2. Aplica Logo no menu
+if (dados.logo) {
+  document.getElementById("logoNav").src = dados.logo;
+} else {
+  document.getElementById("logoNav").style.display = "none";
+}
+
+// 3. Renderiza Título (Texto ou Imagem)
+const tituloContainer = document.getElementById("tituloContainer");
+if (dados.tituloTipo === "imagem" && dados.tituloConteudo) {
+  tituloContainer.innerHTML = `<img src="${dados.tituloConteudo}" alt="Título do Evento" class="max-w-full md:max-w-3xl mx-auto h-auto drop-shadow-2xl">`;
+} else {
+  tituloContainer.innerHTML = `<h1 class="text-6xl md:text-8xl mb-4 text-white">${dados.tituloConteudo}</h1>`;
+}
+
+// 4. Restante dos dados
 document.getElementById("subtitulo").textContent = dados.subtitulo;
 document.getElementById("historia").textContent = dados.historia;
 
@@ -116,13 +154,13 @@ dados.fotos.forEach(url => {
   galeria.appendChild(img);
 });
 
-// Vídeos do YouTube
+// Vídeos
 const listaVideos = document.getElementById("listaVideos");
 dados.videos.forEach(url => {
   const id = extrairIdYouTube(url);
   if (!id) return;
   const div = document.createElement("div");
-  div.className = "aspect-video rounded-xl overflow-hidden card-hover";
+  div.className = "aspect-video rounded-xl overflow-hidden card-hover shadow-lg";
   div.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>`;
   listaVideos.appendChild(div);
 });
