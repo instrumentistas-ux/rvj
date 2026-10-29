@@ -11,12 +11,11 @@
   body { font-family: 'Inter', sans-serif; }
   h1, h2, .titulo { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
   
-  /* Fundo dinâmico com overlay escuro para garantir leitura do texto */
+  /* Fundo dinâmico - SEM background-attachment:fixed para funcionar no mobile */
   .hero-bg {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed; /* Efeito parallax bonito ao rolar */
   }
   .hero-overlay {
     background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%);
@@ -29,14 +28,47 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+  
+  /* Menu Mobile */
+  .menu-mobile {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0,0,0,0.95);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
+  .menu-mobile.active {
+    display: flex;
+  }
+  .menu-mobile a {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  /* Responsividade específica */
+  @media (max-width: 768px) {
+    .hero-bg {
+      background-attachment: scroll; /* Força scroll em mobile */
+    }
+  }
 </style>
 </head>
 <body class="bg-neutral-950 text-white">
 
 <!-- NAVBAR -->
 <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
-  <div class="max-w-6xl mx-auto flex justify-between items-center px-6 py-4">
-    <a href="#topo"><img id="logoNav" src="" alt="Logo" class="h-10" onerror="this.style.display='none'"></a>
+  <div class="max-w-6xl mx-auto flex justify-between items-center px-4 md:px-6 py-3 md:py-4">
+    <a href="#topo"><img id="logoNav" src="" alt="Logo" class="h-8 md:h-10" onerror="this.style.display='none'"></a>
+    
+    <!-- Menu Desktop -->
     <div class="hidden md:flex gap-6 text-sm font-semibold">
       <a href="#inscricao" class="hover:text-pink-400 transition">Inscrição Radical</a>
       <a href="#rvj" class="hover:text-pink-400 transition">RVJ</a>
@@ -44,66 +76,79 @@
       <a href="#videos" class="hover:text-pink-400 transition">Vídeos</a>
       <a href="#contato" class="hover:text-pink-400 transition">Contato</a>
     </div>
-    <a href="admin.html" class="text-xs text-neutral-400 hover:text-white transition">⚙️ Admin</a>
+    
+    <!-- Botão Menu Mobile -->
+    <button id="btnMenuMobile" class="md:hidden text-white text-2xl">☰</button>
+    
+    <a href="admin.html" class="hidden md:block text-xs text-neutral-400 hover:text-white transition">⚙️ Admin</a>
   </div>
 </nav>
 
+<!-- Menu Mobile Overlay -->
+<div id="menuMobile" class="menu-mobile">
+  <button id="btnFecharMenu" class="absolute top-6 right-6 text-3xl text-white">✕</button>
+  <a href="#inscricao" class="hover:text-pink-400 transition" onclick="fecharMenu()">Inscrição Radical</a>
+  <a href="#rvj" class="hover:text-pink-400 transition" onclick="fecharMenu()">RVJ</a>
+  <a href="#fotos" class="hover:text-pink-400 transition" onclick="fecharMenu()">Fotos</a>
+  <a href="#videos" class="hover:text-pink-400 transition" onclick="fecharMenu()">Vídeos</a>
+  <a href="#contato" class="hover:text-pink-400 transition" onclick="fecharMenu()">Contato</a>
+  <a href="admin.html" class="text-sm text-neutral-400 mt-4" onclick="fecharMenu()">⚙️ Admin</a>
+</div>
+
 <!-- HERO / INSCRIÇÃO -->
-<section id="inscricao" class="hero-bg min-h-screen flex items-center justify-center text-center px-6 relative">
-  <!-- Overlay escuro para o texto ficar legível em qualquer foto -->
+<section id="inscricao" class="hero-bg min-h-screen flex items-center justify-center text-center px-4 md:px-6 relative">
   <div class="hero-overlay absolute inset-0"></div>
   
-  <div class="relative z-10 max-w-4xl mx-auto pt-20">
-    <!-- Aqui entra o Texto OU a Imagem do título -->
-    <div id="tituloContainer" class="mb-6 drop-shadow-2xl"></div>
+  <div class="relative z-10 max-w-4xl mx-auto pt-16 md:pt-20">
+    <div id="tituloContainer" class="mb-4 md:mb-6 drop-shadow-2xl"></div>
     
-    <p id="subtitulo" class="text-xl md:text-3xl mb-10 text-white/90 font-light max-w-2xl mx-auto"></p>
+    <p id="subtitulo" class="text-lg md:text-2xl lg:text-3xl mb-8 md:mb-10 text-white/90 font-light max-w-2xl mx-auto px-2"></p>
     
     <a id="btnInscricao" href="https://app.novoingresso.com.br/eventos/aprofundamento-radical-2027" target="_blank"
-       class="inline-block bg-gradient-to-r from-pink-600 to-orange-500 text-white font-extrabold px-10 py-5 rounded-full text-xl shadow-2xl hover:scale-105 transition transform border border-white/20">
+       class="inline-block bg-gradient-to-r from-pink-600 to-orange-500 text-white font-extrabold px-8 md:px-10 py-4 md:py-5 rounded-full text-base md:text-xl shadow-2xl hover:scale-105 transition transform border border-white/20 w-full max-w-xs md:max-w-none">
       QUERO ME INSCREVER 🚀
     </a>
- 9  </div>
+  </div>
 </section>
 
 <!-- RVJ -->
-<section id="rvj" class="py-24 px-6 bg-neutral-900">
+<section id="rvj" class="py-16 md:py-24 px-4 md:px-6 bg-neutral-900">
   <div class="max-w-4xl mx-auto text-center">
-    <h2 class="text-5xl mb-8 gradient-text">A HISTÓRIA DO RVJ</h2>
-    <p id="historia" class="text-lg leading-relaxed text-neutral-300"></p>
+    <h2 class="text-4xl md:text-5xl mb-6 md:mb-8 gradient-text">A HISTÓRIA DO RVJ</h2>
+    <p id="historia" class="text-base md:text-lg leading-relaxed text-neutral-300"></p>
   </div>
 </section>
 
 <!-- FOTOS -->
-<section id="fotos" class="py-24 px-6">
-  <h2 class="text-5xl text-center mb-12 gradient-text">FOTOS</h2>
-  <div id="galeria" class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+<section id="fotos" class="py-16 md:py-24 px-4 md:px-6">
+  <h2 class="text-4xl md:text-5xl text-center mb-8 md:mb-12 gradient-text">FOTOS</h2>
+  <div id="galeria" class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4"></div>
 </section>
 
 <!-- VÍDEOS -->
-<section id="videos" class="py-24 px-6 bg-neutral-900">
-  <h2 class="text-5xl text-center mb-12 gradient-text">VÍDEOS</h2>
-  <div id="listaVideos" class="max-w-5xl mx-auto grid md:grid-cols-2 gap-6"></div>
+<section id="videos" class="py-16 md:py-24 px-4 md:px-6 bg-neutral-900">
+  <h2 class="text-4xl md:text-5xl text-center mb-8 md:mb-12 gradient-text">VÍDEOS</h2>
+  <div id="listaVideos" class="max-w-5xl mx-auto grid md:grid-cols-2 gap-4 md:gap-6"></div>
 </section>
 
 <!-- CONTATO -->
-<section id="contato" class="py-24 px-6">
+<section id="contato" class="py-16 md:py-24 px-4 md:px-6">
   <div class="max-w-2xl mx-auto text-center">
-    <h2 class="text-5xl mb-8 gradient-text">CONTATO</h2>
-    <div id="contatoInfo" class="text-lg space-y-3 text-neutral-300"></div>
+    <h2 class="text-4xl md:text-5xl mb-6 md:mb-8 gradient-text">CONTATO</h2>
+    <div id="contatoInfo" class="text-base md:text-lg space-y-3 text-neutral-300"></div>
   </div>
 </section>
 
-<footer class="text-center py-8 text-neutral-500 text-sm border-t border-neutral-800">
+<footer class="text-center py-6 md:py-8 text-neutral-500 text-xs md:text-sm border-t border-neutral-800 px-4">
   © 2027 Aprofundamento Radical. Todos os direitos reservados.
 </footer>
 
 <script>
-// Dados padrão (caso não tenha nada salvo no admin ainda)
+// Dados padrão
 const padrao = {
-  heroImage: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1920&auto=format&fit=crop", // Foto de exemplo (multidão/show)
+  heroImage: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1920&auto=format&fit=crop",
   logo: "",
-  tituloTipo: "texto", // "texto" ou "imagem"
+  tituloTipo: "texto",
   tituloConteudo: "APROFUNDAMENTO RADICAL 2027",
   subtitulo: "Viva uma experiência que vai mudar a sua vida para sempre!",
   historia: "O RVJ (Renovação de Vida Jovem) nasceu do desejo de aproximar os jovens de Deus através de experiências transformadoras, música, palavra e comunhão. É um tempo separado para mergulhar fundo na fé e fazer novos amigos.",
@@ -132,12 +177,12 @@ if (dados.logo) {
   document.getElementById("logoNav").style.display = "none";
 }
 
-// 3. Renderiza Título (Texto ou Imagem)
+// 3. Renderiza Título
 const tituloContainer = document.getElementById("tituloContainer");
 if (dados.tituloTipo === "imagem" && dados.tituloConteudo) {
-  tituloContainer.innerHTML = `<img src="${dados.tituloConteudo}" alt="Título do Evento" class="max-w-full md:max-w-3xl mx-auto h-auto drop-shadow-2xl">`;
+  tituloContainer.innerHTML = `<img src="${dados.tituloConteudo}" alt="Título do Evento" class="max-w-[90%] md:max-w-3xl mx-auto h-auto drop-shadow-2xl">`;
 } else {
-  tituloContainer.innerHTML = `<h1 class="text-6xl md:text-8xl mb-4 text-white">${dados.tituloConteudo}</h1>`;
+  tituloContainer.innerHTML = `<h1 class="text-5xl md:text-7xl lg:text-8xl mb-2 md:mb-4 text-white leading-tight">${dados.tituloConteudo}</h1>`;
 }
 
 // 4. Restante dos dados
@@ -149,7 +194,7 @@ const galeria = document.getElementById("galeria");
 dados.fotos.forEach(url => {
   const img = document.createElement("img");
   img.src = url;
-  img.className = "rounded-xl card-hover w-full h-64 object-cover";
+  img.className = "rounded-lg md:rounded-xl card-hover w-full h-40 md:h-64 object-cover";
   img.loading = "lazy";
   galeria.appendChild(img);
 });
@@ -160,7 +205,7 @@ dados.videos.forEach(url => {
   const id = extrairIdYouTube(url);
   if (!id) return;
   const div = document.createElement("div");
-  div.className = "aspect-video rounded-xl overflow-hidden card-hover shadow-lg";
+  div.className = "aspect-video rounded-lg md:rounded-xl overflow-hidden card-hover shadow-lg";
   div.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>`;
   listaVideos.appendChild(div);
 });
@@ -172,6 +217,17 @@ function extrairIdYouTube(url) {
 
 // Contato
 document.getElementById("contatoInfo").innerHTML = dados.contato.split("\n").map(l => `<p>${l}</p>`).join("");
+
+// Menu Mobile
+document.getElementById("btnMenuMobile").addEventListener("click", () => {
+  document.getElementById("menuMobile").classList.add("active");
+});
+
+document.getElementById("btnFecharMenu").addEventListener("click", fecharMenu);
+
+function fecharMenu() {
+  document.getElementById("menuMobile").classList.remove("active");
+}
 </script>
 
 </body>
