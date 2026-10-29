@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Admin - Aprofundamento Radical</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-neutral-900 text-white p-8">
+<div class="max-w-3xl mx-auto">
+  <h1 class="text-4xl font-bold mb-8">⚙️ Painel do Administrador</h1>
+
+  <!-- LOGIN -->
+  <div id="login" class="bg-neutral-800 p-8 rounded-xl">
+    <h2 class="text-2xl mb-4">Entrar</h2>
+    <input id="senha" type="password" placeholder="Senha" class="w-full p-3 rounded bg-neutral-700 mb-4">
+    <button onclick="entrar()" class="bg-pink-600 px-6 py-3 rounded font-bold">Entrar</button>
+    <p class="text-sm text-neutral-400 mt-4">Senha padrão: <code>radical2027</code></p>
+  </div>
+
+  <!-- EDITOR -->
+  <div id="editor" class="hidden space-y-6">
+    <label class="block">
+      <span class="block mb-1">Logo (URL)</span>
+      <input id="f_logo" class="w-full p-3 rounded bg-neutral-700">
+    </label>
+    <label class="block">
+      <span class="block mb-1">Título principal</span>
+      <input id="f_titulo" class="w-full p-3 rounded bg-neutral-700">
+    </label>
+    <label class="block">
+      <span class="block mb-1">Subtítulo</span>
+      <input id="f_subtitulo" class="w-full p-3 rounded bg-neutral-700">
+    </label>
+    <label class="block">
+      <span class="block mb-1">História do RVJ</span>
+      <textarea id="f_historia" rows="6" class="w-full p-3 rounded bg-neutral-700"></textarea>
+    </label>
+    <label class="block">
+      <span class="block mb-1">Fotos (uma URL por linha — cole o link do Cloudinary)</span>
+      <textarea id="f_fotos" rows="4" class="w-full p-3 rounded bg-neutral-700" placeholder="https://res.cloudinary.com/..."></textarea>
+    </label>
+    <label class="block">
+      <span class="block mb-1">Vídeos do YouTube (um link por linha)</span>
+      <textarea id="f_videos" rows="4" class="w-full p-3 rounded bg-neutral-700"></textarea>
+    </label>
+    <label class="block">
+      <span class="block mb-1">Contato (uma linha por informação)</span>
+      <textarea id="f_contato" rows="4" class="w-full p-3 rounded bg-neutral-700"></textarea>
+    </label>
+
+    <div class="flex gap-4">
+      <button onclick="salvar()" class="bg-green-600 px-8 py-3 rounded font-bold">💾 Salvar</button>
+      <a href="index.html" class="bg-neutral-600 px-8 py-3 rounded font-bold">Ver site</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function entrar() {
+  if (document.getElementById("senha").value === "radical2027") {
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("editor").classList.remove("hidden");
+    carregar();
+  } else {
+    alert("Senha incorreta!");
+  }
+}
+
+function carregar() {
+  const d = JSON.parse(localStorage.getItem("siteDados")) || {};
+  document.getElementById("f_logo").value = d.logo || "";
+  document.getElementById("f_titulo").value = d.titulo || "";
+  document.getElementById("f_subtitulo").value = d.subtitulo || "";
+  document.getElementById("f_historia").value = d.historia || "";
+  document.getElementById("f_fotos").value = (d.fotos || []).join("\n");
+  document.getElementById("f_videos").value = (d.videos || []).join("\n");
+  document.getElementById("f_contato").value = d.contato || "";
+}
+
+function salvar() {
+  const dados = {
+    logo: document.getElementById("f_logo").value,
+    titulo: document.getElementById("f_titulo").value,
+    subtitulo: document.getElementById("f_subtitulo").value,
+    historia: document.getElementById("f_historia").value,
+    fotos: document.getElementById("f_fotos").value.split("\n").filter(Boolean),
+    videos: document.getElementById("f_videos").value.split("\n").filter(Boolean),
+    contato: document.getElementById("f_contato").value
+  };
+  localStorage.setItem("siteDados", JSON.stringify(dados));
+  alert("✅ Salvo! Abra o site para ver as alterações.");
+}
+</script>
+</body>
+</html>
