@@ -9,199 +9,184 @@
 <style>
   html { scroll-behavior: smooth; }
   body { font-family: 'Inter', sans-serif; }
-  h1, h2, .titulo { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
-  
-  .hero-bg {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-  .hero-overlay {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.6) 100%);
-  }
-  
+  h1, h2 { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
+  .hero-bg { background-size: cover; background-position: center; background-repeat: no-repeat; }
+  .hero-overlay { background: linear-gradient(to bottom, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.6) 100%); }
   .card-hover { transition: all .3s; }
   .card-hover:hover { transform: translateY(-6px); box-shadow: 0 15px 35px rgba(0,0,0,.3); }
-  .gradient-text {
-    background: linear-gradient(90deg, #ff512f, #dd2476);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  
-  .menu-mobile {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100vh;
-    background: rgba(0,0,0,0.95);
-    backdrop-filter: blur(10px);
-    z-index: 100;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-  }
+  .gradient-text { background: linear-gradient(90deg, #ff512f, #dd2476); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .menu-mobile { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); z-index: 100; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; }
   .menu-mobile.active { display: flex; }
-  .menu-mobile a { font-size: 1.5rem; font-weight: 600; }
+  .loading { display: flex; justify-content: center; align-items: center; height: 100vh; font-size: 1.5rem; }
 </style>
 </head>
 <body class="bg-neutral-950 text-white">
 
-<!-- NAVBAR -->
-<nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
-  <div class="max-w-6xl mx-auto flex justify-between items-center px-4 md:px-6 py-3 md:py-4">
-    <a href="#topo"><img id="logoNav" src="" alt="Logo" class="h-8 md:h-10" onerror="this.style.display='none'"></a>
-    
-    <div class="hidden md:flex gap-6 text-sm font-semibold">
-      <a href="#inscricao" class="hover:text-pink-400 transition">Inscrição Radical</a>
-      <a href="#rvj" class="hover:text-pink-400 transition">RVJ</a>
-      <a href="#fotos" class="hover:text-pink-400 transition">Fotos</a>
-      <a href="#videos" class="hover:text-pink-400 transition">Vídeos</a>
-      <a href="#contato" class="hover:text-pink-400 transition">Contato</a>
-    </div>
-    
-    <button id="btnMenuMobile" class="md:hidden text-white text-2xl">☰</button>
-  </div>
-</nav>
+<!-- TELA DE CARREGAMENTO -->
+<div id="loading" class="loading">Carregando site...</div>
 
-<!-- Menu Mobile -->
-<div id="menuMobile" class="menu-mobile">
-  <button id="btnFecharMenu" class="absolute top-6 right-6 text-3xl text-white">✕</button>
-  <a href="#inscricao" onclick="fecharMenu()">Inscrição Radical</a>
-  <a href="#rvj" onclick="fecharMenu()">RVJ</a>
-  <a href="#fotos" onclick="fecharMenu()">Fotos</a>
-  <a href="#videos" onclick="fecharMenu()">Vídeos</a>
-  <a href="#contato" onclick="fecharMenu()">Contato</a>
+<!-- CONTEÚDO DO SITE (Inicialmente oculto até carregar os dados) -->
+<div id="siteContent" class="hidden">
+  <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md z-50 border-b border-white/10">
+    <div class="max-w-6xl mx-auto flex justify-between items-center px-4 md:px-6 py-3 md:py-4">
+      <a href="#topo"><img id="logoNav" src="" alt="Logo" class="h-8 md:h-10" onerror="this.style.display='none'"></a>
+      <div class="hidden md:flex gap-6 text-sm font-semibold">
+        <a href="#inscricao" class="hover:text-pink-400 transition">Inscrição</a>
+        <a href="#rvj" class="hover:text-pink-400 transition">RVJ</a>
+        <a href="#fotos" class="hover:text-pink-400 transition">Fotos</a>
+        <a href="#videos" class="hover:text-pink-400 transition">Vídeos</a>
+        <a href="#contato" class="hover:text-pink-400 transition">Contato</a>
+      </div>
+      <button id="btnMenuMobile" class="md:hidden text-white text-2xl">☰</button>
+    </div>
+  </nav>
+
+  <div id="menuMobile" class="menu-mobile">
+    <button id="btnFecharMenu" class="absolute top-6 right-6 text-3xl text-white">✕</button>
+    <a href="#inscricao" onclick="fecharMenu()">Inscrição</a>
+    <a href="#rvj" onclick="fecharMenu()">RVJ</a>
+    <a href="#fotos" onclick="fecharMenu()">Fotos</a>
+    <a href="#videos" onclick="fecharMenu()">Vídeos</a>
+    <a href="#contato" onclick="fecharMenu()">Contato</a>
+    <a href="admin.html" class="text-sm text-neutral-400 mt-4" onclick="fecharMenu()">⚙️ Admin</a>
+  </div>
+
+  <section id="inscricao" class="hero-bg min-h-screen flex items-center justify-center text-center px-4 md:px-6 relative">
+    <div class="hero-overlay absolute inset-0"></div>
+    <div class="relative z-10 max-w-4xl mx-auto pt-16 md:pt-20">
+      <div id="tituloContainer" class="mb-4 md:mb-6 drop-shadow-2xl"></div>
+      <p id="subtitulo" class="text-lg md:text-2xl lg:text-3xl mb-8 md:mb-10 text-white/90 font-light max-w-2xl mx-auto px-2"></p>
+      <a id="btnInscricao" href="#" target="_blank" class="inline-block bg-gradient-to-r from-pink-600 to-orange-500 text-white font-extrabold px-8 md:px-10 py-4 md:py-5 rounded-full text-base md:text-xl shadow-2xl hover:scale-105 transition transform border border-white/20 w-full max-w-xs md:max-w-none">QUERO ME INSCREVER 🚀</a>
+    </div>
+  </section>
+
+  <section id="rvj" class="py-16 md:py-24 px-4 md:px-6 bg-neutral-900">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-4xl md:text-5xl mb-6 md:mb-8 gradient-text">A HISTÓRIA DO RVJ</h2>
+      <p id="historia" class="text-base md:text-lg leading-relaxed text-neutral-300"></p>
+    </div>
+  </section>
+
+  <section id="fotos" class="py-16 md:py-24 px-4 md:px-6">
+    <h2 class="text-4xl md:text-5xl text-center mb-8 md:mb-12 gradient-text">FOTOS</h2>
+    <div id="galeria" class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4"></div>
+  </section>
+
+  <section id="videos" class="py-16 md:py-24 px-4 md:px-6 bg-neutral-900">
+    <h2 class="text-4xl md:text-5xl text-center mb-8 md:mb-12 gradient-text">VÍDEOS</h2>
+    <div id="listaVideos" class="max-w-5xl mx-auto grid md:grid-cols-2 gap-4 md:gap-6"></div>
+  </section>
+
+  <section id="contato" class="py-16 md:py-24 px-4 md:px-6">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-4xl md:text-5xl mb-6 md:mb-8 gradient-text">CONTATO</h2>
+      <div id="contatoInfo" class="text-base md:text-lg space-y-3 text-neutral-300"></div>
+    </div>
+  </section>
+
+  <footer class="text-center py-6 md:py-8 text-neutral-500 text-xs md:text-sm border-t border-neutral-800 px-4">
+    © 2027 Aprofundamento Radical. Todos os direitos reservados.
+  </footer>
 </div>
 
-<!-- HERO -->
-<section id="inscricao" class="hero-bg min-h-screen flex items-center justify-center text-center px-4 md:px-6 relative">
-  <div class="hero-overlay absolute inset-0"></div>
-  <div class="relative z-10 max-w-4xl mx-auto pt-16 md:pt-20">
-    <div id="tituloContainer" class="mb-4 md:mb-6 drop-shadow-2xl"></div>
-    <p id="subtitulo" class="text-lg md:text-2xl lg:text-3xl mb-8 md:mb-10 text-white/90 font-light max-w-2xl mx-auto px-2"></p>
-    <a id="btnInscricao" href="https://app.novoingresso.com.br/eventos/aprofundamento-radical-2027" target="_blank"
-       class="inline-block bg-gradient-to-r from-pink-600 to-orange-500 text-white font-extrabold px-8 md:px-10 py-4 md:py-5 rounded-full text-base md:text-xl shadow-2xl hover:scale-105 transition transform border border-white/20 w-full max-w-xs md:max-w-none">
-      QUERO ME INSCREVER 🚀
-    </a>
-  </div>
-</section>
+<!-- FIREBASE E LÓGICA DO SITE -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-<!-- RVJ -->
-<section id="rvj" class="py-16 md:py-24 px-4 md:px-6 bg-neutral-900">
-  <div class="max-w-4xl mx-auto text-center">
-    <h2 class="text-4xl md:text-5xl mb-6 md:mb-8 gradient-text">A HISTÓRIA DO RVJ</h2>
-    <p id="historia" class="text-base md:text-lg leading-relaxed text-neutral-300"></p>
-  </div>
-</section>
-
-<!-- FOTOS -->
-<section id="fotos" class="py-16 md:py-24 px-4 md:px-6">
-  <h2 class="text-4xl md:text-5xl text-center mb-8 md:mb-12 gradient-text">FOTOS</h2>
-  <div id="galeria" class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4"></div>
-</section>
-
-<!-- VÍDEOS -->
-<section id="videos" class="py-16 md:py-24 px-4 md:px-6 bg-neutral-900">
-  <h2 class="text-4xl md:text-5xl text-center mb-8 md:mb-12 gradient-text">VÍDEOS</h2>
-  <div id="listaVideos" class="max-w-5xl mx-auto grid md:grid-cols-2 gap-4 md:gap-6"></div>
-</section>
-
-<!-- CONTATO -->
-<section id="contato" class="py-16 md:py-24 px-4 md:px-6">
-  <div class="max-w-2xl mx-auto text-center">
-    <h2 class="text-4xl md:text-5xl mb-6 md:mb-8 gradient-text">CONTATO</h2>
-    <div id="contatoInfo" class="text-base md:text-lg space-y-3 text-neutral-300"></div>
-  </div>
-</section>
-
-<footer class="text-center py-6 md:py-8 text-neutral-500 text-xs md:text-sm border-t border-neutral-800 px-4">
-  © 2027 Aprofundamento Radical. Todos os direitos reservados.
-</footer>
-
-<script>
-// =========================================================================
-// 🛠️ ÁREA DE EDIÇÃO DO SITE (ALTERAÇÕES AQUI VALEM PARA TODOS OS DISPOSITIVOS)
-// =========================================================================
-const CONFIGURACAO_DO_SITE = {
-  heroImage: "https://res.cloudinary.com/enxyuaij/image/upload/v1793293543/fullhd-RVJ2k27.jpg",
-  logo: "", 
-  tituloTipo: "texto", // Use "texto" ou "imagem"
-  tituloConteudo: "APROFUNDAMENTO RADICAL 2027",
-  subtitulo: "Viva uma experiência que vai mudar a sua vida para sempre!",
-  historia: "O RVJ (Renovação de Vida Jovem) nasceu do desejo de aproximar os jovens de Deus através de experiências transformadoras, música, palavra e comunhão.",
-  fotos: [
-    "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=400&h=400&fit=crop",
-    "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=400&h=400&fit=crop"
-  ],
-  videos: [
-    "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-  ],
-  contato: "📧 revolucaojesus@cancaonova.com\n📱 (12) 3186-2600\n instagram: @recolucaojesus"
+  // ⚠️ SUBSTITUA ESTE BLOCO PELO SEU FIREBASE CONFIG (Passo 1)
+  const firebaseConfig = {
+  apiKey: "AIzaSyBGmxb1nsmasgNXHlEZunXdcFa7uqRMrAo",
+  authDomain: "site-rvj.firebaseapp.com",
+  projectId: "site-rvj",
+  storageBucket: "site-rvj.firebasestorage.app",
+  messagingSenderId: "880852375777",
+  appId: "1:880852375777:web:bcd4a19dada382efd63fa0"
 };
-// =========================================================================
 
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-// 1. Aplica imagem de fundo
-if (CONFIGURACAO_DO_SITE.heroImage) {
-  document.getElementById("inscricao").style.backgroundImage = `url('${CONFIGURACAO_DO_SITE.heroImage}')`;
-}
+  // Dados padrão de emergência (caso o banco esteja vazio)
+  const dadosPadrao = {
+    heroImage: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1920",
+    logo: "",
+    linkInscricao: "https://app.novoingresso.com.br/eventos/aprofundamento-radical-2027",
+    tituloTipo: "texto",
+    tituloConteudo: "APROFUNDAMENTO RADICAL 2027",
+    subtitulo: "Viva uma experiência que vai mudar a sua vida para sempre!",
+    historia: "O RVJ nasceu do desejo de aproximar os jovens de Deus através de experiências transformadoras.",
+    fotos: ["https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=400&fit=crop"],
+    videos: ["https://www.youtube.com/watch?v=dQw4w9WgXcQ"],
+    contato: "📧 contato@exemplo.com\n📱 (00) 00000-0000"
+  };
 
-// 2. Aplica Logo
-if (CONFIGURACAO_DO_SITE.logo) {
-  document.getElementById("logoNav").src = CONFIGURACAO_DO_SITE.logo;
-} else {
-  document.getElementById("logoNav").style.display = "none";
-}
+  async function carregarSite() {
+    try {
+      const docRef = doc(db, "site", "configuracao");
+      const docSnap = await getDoc(docRef);
+      const dados = docSnap.exists() ? docSnap.data() : dadosPadrao;
 
-// 3. Renderiza Título
-const tituloContainer = document.getElementById("tituloContainer");
-if (CONFIGURACAO_DO_SITE.tituloTipo === "imagem" && CONFIGURACAO_DO_SITE.tituloConteudo) {
-  tituloContainer.innerHTML = `<img src="${CONFIGURACAO_DO_SITE.tituloConteudo}" alt="Título" class="max-w-[90%] md:max-w-3xl mx-auto h-auto drop-shadow-2xl">`;
-} else {
-  tituloContainer.innerHTML = `<h1 class="text-5xl md:text-7xl lg:text-8xl mb-2 md:mb-4 text-white leading-tight">${CONFIGURACAO_DO_SITE.tituloConteudo}</h1>`;
-}
+      // Aplica os dados na tela
+      if (dados.heroImage) document.getElementById("inscricao").style.backgroundImage = `url('${dados.heroImage}')`;
+      if (dados.logo) document.getElementById("logoNav").src = dados.logo;
+      else document.getElementById("logoNav").style.display = "none";
+      
+      if (dados.linkInscricao) document.getElementById("btnInscricao").href = dados.linkInscricao;
 
-// 4. Aplica demais textos
-document.getElementById("subtitulo").textContent = CONFIGURACAO_DO_SITE.subtitulo;
-document.getElementById("historia").textContent = CONFIGURACAO_DO_SITE.historia;
+      const tituloContainer = document.getElementById("tituloContainer");
+      if (dados.tituloTipo === "imagem" && dados.tituloConteudo) {
+        tituloContainer.innerHTML = `<img src="${dados.tituloConteudo}" class="max-w-[90%] md:max-w-3xl mx-auto h-auto drop-shadow-2xl">`;
+      } else {
+        tituloContainer.innerHTML = `<h1 class="text-5xl md:text-7xl lg:text-8xl mb-2 md:mb-4 text-white leading-tight">${dados.tituloConteudo || 'RVJ 2027'}</h1>`;
+      }
 
-// 5. Galeria de Fotos
-const galeria = document.getElementById("galeria");
-CONFIGURACAO_DO_SITE.fotos.forEach(url => {
-  const img = document.createElement("img");
-  img.src = url;
-  img.className = "rounded-lg md:rounded-xl card-hover w-full h-40 md:h-64 object-cover";
-  img.loading = "lazy";
-  galeria.appendChild(img);
-});
+      document.getElementById("subtitulo").textContent = dados.subtitulo || "";
+      document.getElementById("historia").textContent = dados.historia || "";
 
-// 6. Vídeos do YouTube
-const listaVideos = document.getElementById("listaVideos");
-CONFIGURACAO_DO_SITE.videos.forEach(url => {
-  const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
-  if (!match) return;
-  const div = document.createElement("div");
-  div.className = "aspect-video rounded-lg md:rounded-xl overflow-hidden card-hover shadow-lg";
-  div.innerHTML = `<iframe src="https://www.youtube.com/embed/${match[1]}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>`;
-  listaVideos.appendChild(div);
-});
+      const galeria = document.getElementById("galeria");
+      if (dados.fotos) {
+        dados.fotos.forEach(url => {
+          const img = document.createElement("img");
+          img.src = url;
+          img.className = "rounded-lg md:rounded-xl card-hover w-full h-40 md:h-64 object-cover";
+          img.loading = "lazy";
+          galeria.appendChild(img);
+        });
+      }
 
-// 7. Contato
-document.getElementById("contatoInfo").innerHTML = CONFIGURACAO_DO_SITE.contato.split("\n").map(l => `<p>${l}</p>`).join("");
+      const listaVideos = document.getElementById("listaVideos");
+      if (dados.videos) {
+        dados.videos.forEach(url => {
+          const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+          if (!match) return;
+          const div = document.createElement("div");
+          div.className = "aspect-video rounded-lg md:rounded-xl overflow-hidden card-hover shadow-lg";
+          div.innerHTML = `<iframe src="https://www.youtube.com/embed/${match[1]}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>`;
+          listaVideos.appendChild(div);
+        });
+      }
 
-// 8. Menu Mobile
-document.getElementById("btnMenuMobile").addEventListener("click", () => {
-  document.getElementById("menuMobile").classList.add("active");
-});
-document.getElementById("btnFecharMenu").addEventListener("click", () => {
-  document.getElementById("menuMobile").classList.remove("active");
-});
-function fecharMenu() {
-  document.getElementById("menuMobile").classList.remove("active");
-}
+      if (dados.contato) {
+        document.getElementById("contatoInfo").innerHTML = dados.contato.split("\n").map(l => `<p>${l}</p>`).join("");
+      }
+
+      // Mostra o site e esconde o loading
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("siteContent").classList.remove("hidden");
+
+    } catch (error) {
+      console.error("Erro ao carregar:", error);
+      document.getElementById("loading").textContent = "Erro ao carregar o site. Verifique a configuração do Firebase.";
+    }
+  }
+
+  carregarSite();
+
+  // Menu Mobile
+  document.getElementById("btnMenuMobile").addEventListener("click", () => document.getElementById("menuMobile").classList.add("active"));
+  document.getElementById("btnFecharMenu").addEventListener("click", () => document.getElementById("menuMobile").classList.remove("active"));
+  window.fecharMenu = () => document.getElementById("menuMobile").classList.remove("active");
 </script>
-
 </body>
 </html>
